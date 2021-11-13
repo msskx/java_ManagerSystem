@@ -84,10 +84,10 @@ public class LoginView extends JFrame {
         container.add(nameLabel,BorderLayout.NORTH);
         container.add(centerPanel,BorderLayout.CENTER);
 
-        //添加系统托盘
+        //添加系统托盘(暂时存在显示不全的问题)
         if(SystemTray.isSupported()){
             systemTray=SystemTray.getSystemTray();
-            trayIcon=new TrayIcon(new ImageIcon(".\\src\\main\\res\\icon.png").getImage());
+            trayIcon=new TrayIcon(new ImageIcon(".\\src\\main\\res\\sun.png").getImage());
             try {
                 systemTray.add(trayIcon);
             } catch (AWTException e) {
