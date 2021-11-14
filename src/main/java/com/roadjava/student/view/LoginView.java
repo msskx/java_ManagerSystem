@@ -1,11 +1,10 @@
-package main.java.com.roadjava.student.view;
+package com.roadjava.student.view;
+
+import com.roadjava.handler.LoginHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 
 public class LoginView extends JFrame {
@@ -23,10 +22,24 @@ public class LoginView extends JFrame {
     //托盘
     SystemTray systemTray;
     TrayIcon trayIcon;
+    //
+    LoginHandler loginHandler;
+
+    public JTextField getUserTxt() {
+        return userTxt;
+    }
+
+    public JPasswordField getPwdField() {
+        return pwdField;
+    }
+
     public LoginView(){
         //标题
         super("应用");
         Container container = getContentPane();
+
+
+
 
         nameLabel.setFont(new Font("华文行楷",Font.PLAIN,40));
         nameLabel.setPreferredSize(new Dimension(0,80));
@@ -39,47 +52,21 @@ public class LoginView extends JFrame {
         loginBtn.setFont(centerFont);
         resetBtn.setFont(centerFont);
 
+        loginHandler=new LoginHandler(this);
+
         centerPanel.add(userNameLabel);
         centerPanel.add(userTxt);
         centerPanel.add(pwdLabel);
         centerPanel.add(pwdField);
+        loginBtn.addActionListener(loginHandler);//添加按钮点击事件
+        loginBtn.addKeyListener(loginHandler);//添加按键事件
         centerPanel.add(loginBtn);
+        resetBtn.addActionListener(loginHandler);
         centerPanel.add(resetBtn);
 
 
         //弹簧布局
-        //userNameLabel
-        //取出center两个控件在一行时的总宽度=(userNameLabel+userTxt+二者间距20)
-        Spring childWidth=Spring.sum(Spring.sum(Spring.width(userNameLabel),Spring.width(userTxt)),
-                Spring.constant(20));
-
-        //正中心
-        int offsetX=childWidth.getValue()/2;
-        //从左往右，左偏移
-        //标签的西边相对于面板中心向左对齐
-        springLayout.putConstraint(SpringLayout.WEST,userNameLabel,-offsetX,
-                SpringLayout.HORIZONTAL_CENTER, centerPanel);
-        //标签的北边相对于面板北边对齐间距20
-        springLayout.putConstraint(SpringLayout.NORTH,userNameLabel,20,
-                SpringLayout.NORTH,centerPanel);
-        //userTxt
-        springLayout.putConstraint(SpringLayout.WEST,userTxt,20,SpringLayout.EAST,userNameLabel);
-        springLayout.putConstraint(SpringLayout.NORTH,userTxt,0,SpringLayout.NORTH,userNameLabel);
-
-        //pwdLabel
-        springLayout.putConstraint(SpringLayout.EAST,pwdLabel,0,SpringLayout.EAST,userNameLabel);
-        springLayout.putConstraint(SpringLayout.NORTH,pwdLabel,20,SpringLayout.SOUTH,userNameLabel);
-        //pwdField
-        springLayout.putConstraint(SpringLayout.WEST,pwdField,20,SpringLayout.EAST,pwdLabel);
-        springLayout.putConstraint(SpringLayout.NORTH,pwdField,0,SpringLayout.NORTH,pwdLabel);
-        //loginbtn
-        springLayout.putConstraint(SpringLayout.EAST,loginBtn,50,SpringLayout.EAST,pwdLabel);
-        springLayout.putConstraint(SpringLayout.NORTH,loginBtn,20,SpringLayout.SOUTH,pwdLabel);
-        //resetbtn
-        springLayout.putConstraint(SpringLayout.EAST,resetBtn,-50,SpringLayout.EAST,pwdField);
-        springLayout.putConstraint(SpringLayout.NORTH,resetBtn,20,SpringLayout.SOUTH,pwdLabel);
-
-
+        layoutFunc();
 
         container.add(nameLabel,BorderLayout.NORTH);
         container.add(centerPanel,BorderLayout.CENTER);
@@ -113,6 +100,8 @@ public class LoginView extends JFrame {
             });
         }
 
+        //设置界面默认按钮
+        getRootPane().setDefaultButton(loginBtn);
         //设置图标失败
         setIconImage(new ImageIcon(".\\src\\main\\res\\icon.png").getImage());
         setSize(600,400);
@@ -120,5 +109,38 @@ public class LoginView extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
+    }
+
+    private void layoutFunc() {
+        //userNameLabel
+        //取出center两个控件在一行时的总宽度=(userNameLabel+userTxt+二者间距20)
+        Spring childWidth=Spring.sum(Spring.sum(Spring.width(userNameLabel),Spring.width(userTxt)),
+                Spring.constant(20));
+
+        //正中心
+        int offsetX=childWidth.getValue()/2;
+        //从左往右，左偏移
+        //标签的西边相对于面板中心向左对齐
+        springLayout.putConstraint(SpringLayout.WEST,userNameLabel,-offsetX,
+                SpringLayout.HORIZONTAL_CENTER, centerPanel);
+        //标签的北边相对于面板北边对齐间距20
+        springLayout.putConstraint(SpringLayout.NORTH,userNameLabel,20,
+                SpringLayout.NORTH,centerPanel);
+        //userTxt
+        springLayout.putConstraint(SpringLayout.WEST,userTxt,20,SpringLayout.EAST,userNameLabel);
+        springLayout.putConstraint(SpringLayout.NORTH,userTxt,0,SpringLayout.NORTH,userNameLabel);
+
+        //pwdLabel
+        springLayout.putConstraint(SpringLayout.EAST,pwdLabel,0,SpringLayout.EAST,userNameLabel);
+        springLayout.putConstraint(SpringLayout.NORTH,pwdLabel,20,SpringLayout.SOUTH,userNameLabel);
+        //pwdField
+        springLayout.putConstraint(SpringLayout.WEST,pwdField,20,SpringLayout.EAST,pwdLabel);
+        springLayout.putConstraint(SpringLayout.NORTH,pwdField,0,SpringLayout.NORTH,pwdLabel);
+        //loginbtn
+        springLayout.putConstraint(SpringLayout.EAST,loginBtn,50,SpringLayout.EAST,pwdLabel);
+        springLayout.putConstraint(SpringLayout.NORTH,loginBtn,20,SpringLayout.SOUTH,pwdLabel);
+        //resetbtn
+        springLayout.putConstraint(SpringLayout.EAST,resetBtn,-50,SpringLayout.EAST,pwdField);
+        springLayout.putConstraint(SpringLayout.NORTH,resetBtn,20,SpringLayout.SOUTH,pwdLabel);
     }
 }
