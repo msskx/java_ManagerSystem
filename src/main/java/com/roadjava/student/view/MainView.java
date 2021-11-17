@@ -18,6 +18,7 @@ public class MainView extends JFrame {
 
 
     Container container=getContentPane();
+
     JPanel northPanel=new JPanel(new FlowLayout(FlowLayout.LEFT));
     JButton addBtn=new JButton("增加");
     JButton updateBtn=new JButton("修改");
@@ -35,6 +36,8 @@ public class MainView extends JFrame {
     MainViewHandler mainViewHandler=new MainViewHandler(this);
 
     public MainView() {
+        Rectangle bounds = DimensionUtil.getBounds();
+        pageSize=Math.floorDiv(bounds.height,35);
         //北面布局
         layoutNorth();
         //中间布局

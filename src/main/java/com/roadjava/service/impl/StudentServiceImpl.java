@@ -148,6 +148,38 @@ public class StudentServiceImpl implements StudentService {
         return false;
     }
 
+    @Override
+    public boolean delete(int[] selectedStudentIds) {
+        StringBuilder sql=new StringBuilder();
+        sql.append(" delete from student where id in ( ");
+        int length=selectedStudentIds.length;
+        for (int i = 0; i < length; i++) {
+            if(i==(length-1)){
+                sql.append(" ? ");
+            }else{
+                sql.append(" ?, ");
+            }
+        }
+        sql.append(" ) ");
+        Connection conn=null;
+        PreparedStatement ps=null;
+        try {
+            conn= DBUtil.getConn();
+            ps= conn.prepareStatement(sql.toString());
+            for (int i = 0; i < length; i++) {
+                //设置参数从一开始
+                ps.setInt(i+1,selectedStudentIds[i]);
+            }
+            return ps.executeUpdate()==1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DBUtil.closePs(ps);
+            DBUtil.closeConn(conn);
+        }
+        return false;
+    }
+
     private Vector<Vector<Object>> fillData(ResultSet rs) throws SQLException {
         Vector<Vector<Object>>data=new Vector<>();
         while(rs.next()){

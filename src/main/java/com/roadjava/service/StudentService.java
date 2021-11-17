@@ -11,4 +11,6 @@ public interface StudentService {
     StudentDO getById(int selectedStudentId);
 
     boolean update(StudentDO studentDO);
+
+    boolean delete(int[] selectedStudentIds);
 }
