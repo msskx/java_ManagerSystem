@@ -27,6 +27,9 @@ public class MainViewTableModel extends DefaultTableModel {
         mainViewTableModel.setDataVector(data,columns);
         return mainViewTableModel;
     }
+    public static void updateModel(Vector<Vector<Object>>data){
+        mainViewTableModel.setDataVector(data,columns);
+    }
     @Override
     public boolean isCellEditable(int row, int column) {
         return false;

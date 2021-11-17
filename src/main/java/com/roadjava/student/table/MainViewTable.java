@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.Vector;
 
 public class MainViewTable extends JTable {
+
     public MainViewTable() {
 
         //设置表头
