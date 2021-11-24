@@ -7,7 +7,7 @@ public class DBUtil {
     private static final String DRIVER="com.mysql.jdbc.Driver";
     private static final String USER_NAME="root";
     private static final String PWD="0213";
-
+//静态代码块类加载的时候进行
     static{
         try {
             Class.forName(DRIVER);
