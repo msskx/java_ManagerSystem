@@ -1,0 +1,4 @@
+# java_ManagerSystem
+javaSwingManagerSystem
+利用Java+MySQL写出的一个简易的员工工资管理系统
+使用前记得在DBUtil里配置数据库地址
